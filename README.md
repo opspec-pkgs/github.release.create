@@ -23,6 +23,17 @@ opctl run github.com/opspec-pkgs/github.release.create#VERSION
 op:
   pkg: { ref: github.com/opspec-pkgs/github.release.create#VERSION }
   inputs: 
+    owner:
+    repo:
+    loginUsername:
+    loginPassword:
     tag:
     commitish:
+    # begin optional args
+    name:
+    description:
+    isDraft:
+    isPrerelease:
+    # end optional args
+    
 ```
