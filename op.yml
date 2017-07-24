@@ -46,6 +46,7 @@ inputs:
       constraints: { enum: ['true', 'false'] }
       description: if the release is a pre-release
       default: 'false'
+version: 1.0.0
 run:
   container:
     image: { ref: 'opspecpkgs/github.release.create:1.0.0' }
