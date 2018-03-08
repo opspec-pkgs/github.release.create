@@ -46,10 +46,10 @@ inputs:
       constraints: { enum: ['true', 'false'] }
       description: if the release is a pre-release
       default: 'false'
-version: 1.0.0
+version: 1.1.0
 run:
   container:
-    image: { ref: 'opspecpkgs/github.release.create:1.0.0' }
+    image: { ref: 'opspecpkgs/github.release.create:1.1.0' }
     cmd: [ /cmd.sh ]
     envVars:
       owner:
