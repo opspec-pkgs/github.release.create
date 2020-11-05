@@ -5,6 +5,10 @@ All notable changes will be documented in this file in accordance with
 
 ## \[Unreleased]
 
+## \[1.2.0] - 2020-11-05
+
+- added `id` output
+
 ## \[1.1.0] - 2018-03-07
 
 ### Added

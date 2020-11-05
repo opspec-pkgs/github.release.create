@@ -15,8 +15,7 @@ EOF
 
 statusCode=$(curl \
     --silent \
-    --output \
-    /dev/stderr \
+    --output response \
     --write-out "%{http_code}" \
     --user "${loginUsername}:${loginPassword}" \
     -X POST "https://api.github.com/repos/${owner}/${repo}/releases" \
@@ -25,3 +24,6 @@ statusCode=$(curl \
 if test "$statusCode" -ne 201; then
 exit 1
 fi
+
+# Record the release ID
+cat response | jq -r .id | tr -d '\n' > /id
