@@ -15,20 +15,20 @@ the op uses [![opspec 0.1.5](https://img.shields.io/badge/opspec-0.1.5-brightgre
 ## Install
 
 ```shell
-opctl op install github.com/opspec-pkgs/github.release.create#1.2.0-alpha
+opctl op install github.com/opspec-pkgs/github.release.create#1.2.0-alpha1
 ```
 
 ## Run
 
 ```
-opctl run github.com/opspec-pkgs/github.release.create#1.2.0-alpha
+opctl run github.com/opspec-pkgs/github.release.create#1.2.0-alpha1
 ```
 
 ## Compose
 
 ```yaml
 op:
-  ref: github.com/opspec-pkgs/github.release.create#1.2.0-alpha
+  ref: github.com/opspec-pkgs/github.release.create#1.2.0-alpha1
   inputs:
     commitish:
     loginPassword:
