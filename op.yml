@@ -46,10 +46,14 @@ inputs:
       constraints: { enum: ['true', 'false'] }
       description: if the release is a pre-release
       default: 'false'
-version: 1.1.0
+outputs:
+  id:
+    number:
+      description: ID of the created release, can be used as input for other github.release ops
+version: 1.2.0
 run:
   container:
-    image: { ref: 'opspecpkgs/github.release.create:1.1.0' }
+    image: { ref: 'opspecpkgs/github.release.create:1.2.0' }
     cmd: [ /cmd.sh ]
     envVars:
       owner:
@@ -62,4 +66,6 @@ run:
       description:
       isDraft:
       isPrerelease:
-    files: { /cmd.sh }
+    files:
+      /cmd.sh: $(/cmd.sh)
+      /id: $(id)
