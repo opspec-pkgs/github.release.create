@@ -4,8 +4,14 @@ inputs:
   srcDir:
     dir:
       default: .
-opspec: 0.1.6
 run:
-  op:
-    ref: github.com/opspec-pkgs/opspec.v0.1.6.op.validate#1.0.0
-    inputs: { op: $(srcDir) }
+  container:
+    image:
+      ref: opctl/opctl:0.1.53-dood
+    dirs:
+      /src: $(srcDir)
+    workDir: /src
+    cmd: 
+      - sh
+      - -c
+      - opctl op validate test

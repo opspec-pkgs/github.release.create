@@ -5,6 +5,17 @@ All notable changes will be documented in this file in accordance with
 
 ## \[Unreleased]
 
+## [2.0.0] - 2024-05-28
+
+### Added
+- When creating a release fails, increase the amount of output so that errors are more transparent to consumers of the op
+
+### Changed
+- Instead of always creating a new release, make sure a release doesn't already exist with the provided tag/name
+
+### Fixed
+- CI wasn't running previously, migrate from Travis to GitHub Actions so contributors can easily see the status of CI runs
+
 ## \[1.2.0] - 2020-11-05
 
 - added `id` output
