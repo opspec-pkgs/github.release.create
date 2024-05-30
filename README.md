@@ -12,20 +12,20 @@ creates a github release
 ## Visualize
 
 ```shell
-opctl ui github.com/opspec-pkgs/github.release.create#1.2.0
+opctl ui github.com/opspec-pkgs/github.release.create#2.0.0
 ```
 
 ## Run
 
 ```
-opctl run github.com/opspec-pkgs/github.release.create#1.2.0
+opctl run github.com/opspec-pkgs/github.release.create#2.0.0
 ```
 
 ## Compose
 
 ```yaml
 op:
-  ref: github.com/opspec-pkgs/github.release.create#1.2.0
+  ref: github.com/opspec-pkgs/github.release.create#2.0.0
   inputs:
     commitish:  # 👈 required; provide a value
     loginPassword:  # 👈 required; provide a value
