@@ -1,17 +1,8 @@
 name: test
 description: tests the op
-inputs:
-  srcDir:
-    dir:
-      default: .
 run:
-  container:
-    image:
-      ref: opctl/opctl:0.1.53-dood
-    dirs:
-      /src: $(srcDir)
-    workDir: /src
-    cmd: 
-      - sh
-      - -c
-      - opctl op validate test
+  op:
+    ref: github.com/opspec-pkgs/opctl.op.validate#1.0.0
+    inputs:
+      opctlVersion: 0.1.53
+      op: $(../..)
