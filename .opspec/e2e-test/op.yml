@@ -1,0 +1,64 @@
+name: e2e-test
+description: tests the op
+inputs:
+  owner:
+    string:
+      constraints: { minLength: 1 }
+      description: the github account owner of the release
+  repo:
+    string:
+      constraints: { minLength: 1 }
+      description: the github repo of the release
+  loginUsername:
+    string:
+      constraints: { minLength: 1 }
+      description: user for logging in to the github api
+  loginPassword:
+    string:
+      constraints: { minLength: 1 }
+      description: password for logging in to the github api
+      isSecret: true
+  tag:
+    string:
+      constraints: { minLength: 1 }
+      description: tag to create and associate w/ the release
+  commitish:
+    string:
+      constraints: { minLength: 1 }
+      description: commitish to associate w/ the release
+  name:
+    string:
+      constraints: { minLength: 1 }
+      description: name of release; defaults to tag
+      default: ' '
+  description:
+    string:
+      constraints: { minLength: 1 }
+      description: description of the release
+      default: ' '
+  isDraft:
+    string:
+      constraints: { enum: ['true', 'false'] }
+      description: if the release is a draft
+      default: 'false'
+  isPrerelease:
+    string:
+      constraints: { enum: ['true', 'false'] }
+      description: if the release is a pre-release
+      default: 'false'
+run:
+  op:
+    ref: ../..
+    inputs:
+      owner:
+      repo:
+      loginUsername:
+      loginPassword:
+      tag:
+      commitish:
+      name:
+      description:
+      isDraft:
+      isPrerelease:
+    outputs:
+      id:
