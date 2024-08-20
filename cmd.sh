@@ -19,8 +19,6 @@ fi
 
 results=$(cat response | jq ".[] | select(.name == \"$name\") | [.id]")
 
-echo "Results: $results"
-
 # If more than one release with the same name exists, something has gone wrong.
 # This op isn't responsible for figuring out which release to use, so we fail and
 # give the user some information about how to fix the issue.
