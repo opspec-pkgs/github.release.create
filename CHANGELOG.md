@@ -5,7 +5,13 @@ All notable changes will be documented in this file in accordance with
 
 ## \[Unreleased]
 
-## [2.0.0] - 2024-05-28
+## \[2.0.1] - 2024-08-21
+
+### Fixed
+- if listing releases fails, fail the op immediately instead of trying to continue
+- Correctly escape variables used in the `jq` command to find a release by name so that the command doesn't break when special characters in a name
+
+## \[2.0.0] - 2024-05-28
 
 ### Added
 - When creating a release fails, increase the amount of output so that errors are more transparent to consumers of the op
