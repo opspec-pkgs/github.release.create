@@ -1,5 +1,5 @@
-name: github.com/opspec-pkgs/github.release.create
-description: creates a github release
+name: e2e-test
+description: tests the op
 inputs:
   owner:
     string:
@@ -46,16 +46,10 @@ inputs:
       constraints: { enum: ['true', 'false'] }
       description: if the release is a pre-release
       default: 'false'
-outputs:
-  id:
-    number:
-      description: ID of the created release, can be used as input for other github.release ops
-version: 2.0.1
 run:
-  container:
-    image: { ref: 'opspecpkgs/github.release.create:1.2.0' }
-    cmd: [ /cmd.sh ]
-    envVars:
+  op:
+    ref: $(../..)
+    inputs:
       owner:
       repo:
       loginUsername:
@@ -66,6 +60,5 @@ run:
       description:
       isDraft:
       isPrerelease:
-    files:
-      /cmd.sh: $(/cmd.sh)
-      /id: $(id)
+    outputs:
+      id:

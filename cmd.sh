@@ -6,15 +6,18 @@ set -e
 # using JQ to see if a release with the provided name already exists.
 listReleasesStatusCode=$(curl \
   --silent \
-  --user "${loginUsername}:${loginPassword}" \
+  -H "Authorization: Bearer ${loginPassword}" \
   -X GET "https://api.github.com/repos/${owner}/${repo}/releases?per_page=30" \
   --output response \
   --write-out "%{http_code}"
 )
 
-results=$(cat response | jq '.[] | select(.name == "'$name'") | [.id]')
+if test "$listReleasesStatusCode" -ne 200; then
+  echo "Failed to list releases with status code $listReleasesStatusCode"
+  exit 1
+fi
 
-echo "Results: $results"
+results=$(cat response | jq ".[] | select(.name == \"$name\") | [.id]")
 
 # If more than one release with the same name exists, something has gone wrong.
 # This op isn't responsible for figuring out which release to use, so we fail and
@@ -33,11 +36,6 @@ if [ -n "$results" ]; then
   exit 0
 else
   echo "No release with name $name exists"
-fi
-
-if test "$listReleasesStatusCode" -ne 200; then
-  echo "Failed to list releases with status code $listReleasesStatusCode"
-  exit 1
 fi
 
 cat > body <<EOF
