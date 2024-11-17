@@ -2,70 +2,131 @@ name: github.com/opspec-pkgs/github.release.create
 description: creates a github release
 inputs:
   owner:
+    description: the github account owner of the release
     string:
       constraints: { minLength: 1 }
-      description: the github account owner of the release
   repo:
+    description: the github repo of the release
     string:
       constraints: { minLength: 1 }
-      description: the github repo of the release
-  loginUsername:
+  accessToken:
+    description: access token for logging in to the github api
     string:
       constraints: { minLength: 1 }
-      description: user for logging in to the github api
-  loginPassword:
-    string:
-      constraints: { minLength: 1 }
-      description: password for logging in to the github api
       isSecret: true
   tag:
+    description: tag to create and associate w/ the release
     string:
       constraints: { minLength: 1 }
-      description: tag to create and associate w/ the release
   commitish:
+    description: commitish to associate w/ the release
     string:
       constraints: { minLength: 1 }
-      description: commitish to associate w/ the release
   name:
+    description: name of release; defaults to tag
     string:
       constraints: { minLength: 1 }
-      description: name of release; defaults to tag
       default: ' '
   description:
+    description: description of the release
     string:
       constraints: { minLength: 1 }
-      description: description of the release
       default: ' '
   isDraft:
-    string:
-      constraints: { enum: ['true', 'false'] }
-      description: if the release is a draft
-      default: 'false'
+    description: if the release is a draft
+    boolean:
+      default: false
   isPrerelease:
-    string:
-      constraints: { enum: ['true', 'false'] }
-      description: if the release is a pre-release
-      default: 'false'
+    description: if the release is a pre-release
+    boolean:
+      default: false
+  isReleaseNotesEnabled:
+    description: if auto generated release notes should be enabled
+    boolean:
+      default: false
+
 outputs:
-  id:
-    number:
-      description: ID of the created release, can be used as input for other github.release ops
-version: 2.0.1
+  release:
+    object:
+      default: {}
+      constraints:
+        properties:
+          id:
+            description: ID of the created release, can be used as input for other github.release ops
+            type: number
+version: 3.0.0
 run:
-  container:
-    image: { ref: 'opspecpkgs/github.release.create:1.2.0' }
-    cmd: [ /cmd.sh ]
-    envVars:
-      owner:
-      repo:
-      loginUsername:
-      loginPassword:
-      tag:
-      commitish:
-      name:
-      description:
-      isDraft:
-      isPrerelease:
-    files:
-      /cmd.sh: $(/cmd.sh)
-      /id: $(id)
+  serial:
+    - op:
+        ref: github.com/opspec-pkgs/http.send#1.0.0
+        inputs:
+          method: GET
+          url: https://api.github.com/repos/$(owner)/$(repo)/releases?per_page=30
+          headers:
+            Authorization:
+              - Bearer $(accessToken)
+            Content-Type: 
+              - application/json
+        outputs:
+          body: $(releases)
+          statusCode:
+    - if:
+        - ne: [ $(statusCode), 200]
+      container:
+        image: { ref: alpine }
+        cmd:
+          - sh
+          - -ce
+          - |
+            echo "Failed to list releases; got status code $(statusCode)"
+            exit 1
+    - op:
+        ref: github.com/opspec-pkgs/jmespath.query.evaluate#1.0.0
+        inputs:
+          data: $(releases)
+          query: "[?name == '$(name)']|[0]"
+        outputs:
+          result: $(release)
+    - container:
+        image: { ref: alpine }
+        cmd:
+          - sh
+          - -ce
+          - |
+            echo "$(release)"
+
+    - if:
+        - notExists: $(release.id)
+      serial:
+        - op:
+            ref: github.com/opspec-pkgs/http.send#1.0.0
+            inputs:
+              method: POST
+              url: https://api.github.com/repos/$(owner)/$(repo)/releases
+              headers:
+                Authorization:
+                  - Bearer $(accessToken)
+                Content-Type:
+                  - application/json
+              body:
+                tag_name: $(tag)
+                target_commitish: $(commitish)
+                name:
+                body: $(description)
+                draft: $(isDraft)
+                prerelease: $(isPrerelease)
+                generate_release_notes: $(isReleaseNotesEnabled)
+            outputs:
+              body: $(release)
+              statusCode:
+        - if:
+            - ne: [ $(statusCode), 201]
+          container:
+            image: { ref: alpine }
+            cmd:
+              - sh
+              - -ce
+              - |
+                echo "Failed to create release; got status code $(statusCode)"
+                echo $(release)
+                exit 1

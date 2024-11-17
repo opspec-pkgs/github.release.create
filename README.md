@@ -12,34 +12,34 @@ creates a github release
 ## Visualize
 
 ```shell
-opctl ui github.com/opspec-pkgs/github.release.create#2.0.1
+opctl ui github.com/opspec-pkgs/github.release.create#3.0.0
 ```
 
 ## Run
 
 ```
-opctl run github.com/opspec-pkgs/github.release.create#2.0.1
+opctl run github.com/opspec-pkgs/github.release.create#3.0.0
 ```
 
 ## Compose
 
 ```yaml
 op:
-  ref: github.com/opspec-pkgs/github.release.create#2.0.1
+  ref: github.com/opspec-pkgs/github.release.create#3.0.0
   inputs:
+    accessToken:  # 👈 required; provide a value
     commitish:  # 👈 required; provide a value
-    loginPassword:  # 👈 required; provide a value
-    loginUsername:  # 👈 required; provide a value
     owner:  # 👈 required; provide a value
     repo:  # 👈 required; provide a value
     tag:  # 👈 required; provide a value
   ## uncomment to override defaults
   #   description: " "
-  #   isDraft: "false"
-  #   isPrerelease: "false"
+  #   isDraft: false
+  #   isPrerelease: false
+  #   isReleaseNotesEnabled: false
   #   name: " "
   outputs:
-    id:
+    release:
 ```
 
 # Support

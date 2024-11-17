@@ -5,6 +5,15 @@ All notable changes will be documented in this file in accordance with
 
 ## \[Unreleased]
 
+## \[3.0.0] - 2024-11-18
+
+### Fixed
+- 400 error if description contains JSON special characters (caused by not JSON encoding)
+
+## Changed
+- no longer generate release notes by default
+- use accessToken instead of username/password
+
 ## \[2.0.1] - 2024-08-21
 
 ### Fixed
