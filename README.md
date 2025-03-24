@@ -1,5 +1,4 @@
-[![build](https://github.com/opspec-pkgs/github.release.create/actions/workflows/build.yml/badge.svg)](https://github.com/opspec-pkgs/github.release.create/actions/workflows/build.yml)
-
+[![Build Status](https://github.com/opspec-pkgs/github.release.create/workflows/build/badge.svg?branch=main)](https://github.com/opspec-pkgs/github.release.create/actions?query=workflow%3Abuild+branch%3Amain)
 
 <img src="icon.svg" alt="icon" height="100px">
 
